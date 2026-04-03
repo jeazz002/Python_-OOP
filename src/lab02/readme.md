@@ -55,30 +55,39 @@
 
 ## Демонстрация работы файла `demo.py`:
 1. Создание нескольких объектов Patient
+
 ![Картинка1](../../src/screenshots/lab02/lab0201.png)
 
 2. Создание коллекции и добавление
+
 ![Картинка2](../../src/screenshots/lab02/lab0202.png)
 
 3. Вывод всех элементов
+
 ![Картинка3](../../src/screenshots/lab02/lab0203.png)
 
 4. Поиск
+
 ![Картинка4](../../src/screenshots/lab02/lab0204.png)
 
 5. Использование len() и for
+
 ![Картинка5](../../src/screenshots/lab02/lab0205.png)
 
 6. Индексация
+
 ![Картинка6](../../src/screenshots/lab02/lab0206.png)
 
 7. Сортировка
+
 ![Картинка7](../../src/screenshots/lab02/lab0207.png)
 
 8. Фильтрация
+
 ![Картинка8](../../src/screenshots/lab02/lab0208.png)
 
 9. Удаление элемента
+
 ![Картинка9](../../src/screenshots/lab02/lab0209.png)
 
 10. Три сценария работы:
