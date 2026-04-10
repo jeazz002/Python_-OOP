@@ -1,14 +1,12 @@
-from model import Patient
+from base import Patient   # ← правильный импорт
 
 class PatientCollection:
-
     def __init__(self):
         self._items = []
 
     def add(self, patient):
         if not isinstance(patient, Patient):
             raise TypeError("Можно добавлять только объекты Patient")
-        # Проверка на дубликат имени
         if any(p.name == patient.name for p in self._items):
             raise ValueError(f"Пациент с именем '{patient.name}' уже существует в коллекции")
         self._items.append(patient)
@@ -37,7 +35,6 @@ class PatientCollection:
     def __getitem__(self, index):
         return self._items[index]
 
-    # ----- Поиск -----
     def find_by_name(self, name):
         return [p for p in self._items if p.name == name]
 
@@ -50,7 +47,6 @@ class PatientCollection:
     def find_by_status(self, is_treated):
         return [p for p in self._items if p.is_treated == is_treated]
 
-    # ----- Сортировка -----
     def sort(self, key=None, reverse=False):
         if key is None:
             self._items.sort(key=lambda p: p.name, reverse=reverse)
@@ -65,34 +61,6 @@ class PatientCollection:
 
     def sort_by_diagnosis(self, reverse=False):
         self.sort(key=lambda p: p.diagnosis, reverse=reverse)
-
-    # ----- Фильтрация (логические операции) -----
-    def get_treated(self):
-        new_coll = PatientCollection()
-        for p in self._items:
-            if p.is_treated:
-                new_coll.add(p)
-        return new_coll
-
-    def get_untreated(self):
-        new_coll = PatientCollection()
-        for p in self._items:
-            if not p.is_treated:
-                new_coll.add(p)
-        return new_coll
-
-    def get_by_age_group(self, group):
-        """group: 'child', 'adult', 'senior'."""
-        groups = {'child': lambda p: p.age < 18,
-                  'adult': lambda p: 18 <= p.age < 65,
-                  'senior': lambda p: p.age >= 65}
-        if group not in groups:
-            raise ValueError("Группа должна быть 'child', 'adult' или 'senior'")
-        new_coll = PatientCollection()
-        for p in self._items:
-            if groups[group](p):
-                new_coll.add(p)
-        return new_coll
 
     def __str__(self):
         if not self._items:
