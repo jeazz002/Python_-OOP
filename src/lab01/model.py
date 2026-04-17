@@ -1,18 +1,17 @@
-"""
-Модуль с классом Patient, использующим валидацию из validators.py.
-"""
+import sys
+import os
 
+# Добавляем путь к папке lab04, чтобы импортировать интерфейсы
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'lab04'))
+
+from interfaces import Printable, Comparable
 from validators import validate_name, validate_age, validate_diagnosis, validate_is_treated
-class Patient:
-    # Атрибуты класса
-    total_patients = 0       # счётчик созданных пациентов
-    MAX_AGE = 150            # максимальный допустимый возраст
+
+class Patient(Printable, Comparable):
+    total_patients = 0
+    MAX_AGE = 150
 
     def __init__(self, name, age, diagnosis, is_treated=False):
-        """
-        Конструктор пациента.
-        Выполняет проверку переданных данных через функции валидации.
-        """
         validate_name(name)
         validate_age(age, self.MAX_AGE)
         validate_diagnosis(diagnosis)
@@ -21,11 +20,10 @@ class Patient:
         self.__name = name
         self.__age = age
         self.__diagnosis = diagnosis
-        self.__is_treated = is_treated   # False - лечится, True - вылечен
+        self.__is_treated = is_treated
 
         Patient.total_patients += 1
 
-    # ---- Свойства (getters/setters) ----
     @property
     def name(self):
         return self.__name
@@ -62,34 +60,22 @@ class Patient:
         validate_is_treated(value)
         self.__is_treated = value
 
-    # ---- Бизнес-методы ----
     def admit(self):
-        #'Перевести пациента в статус "лечится".
-        
         self.is_treated = False
-        return f" Пациент {self.name} поступил на лечение."
+        return f"Пациент {self.name} поступил на лечение."
 
     def discharge(self):
-        """
-        Выписать пациента (статус "вылечен").
-        """
         self.is_treated = True
-        return f" Пациент {self.name} выписан."
+        return f"Пациент {self.name} выписан."
 
     def set_diagnosis(self, new_diagnosis):
-        """
-        Изменить диагноз. Запрещено, если пациент уже вылечен.
-        """
         if self.is_treated:
             raise ValueError("Нельзя изменить диагноз вылеченному пациенту.")
         validate_diagnosis(new_diagnosis)
         self.__diagnosis = new_diagnosis
-        return f" Диагноз пациента {self.name} изменён на '{new_diagnosis}'."
+        return f"Диагноз пациента {self.name} изменён на '{new_diagnosis}'."
 
     def get_age_group(self):
-        """
-        Возвращает возрастную группу: child (0-17), adult (18-64), senior (65+).
-        """
         if self.age < 18:
             return "child"
         elif self.age < 65:
@@ -97,7 +83,6 @@ class Patient:
         else:
             return "senior"
 
-    # ---- Специальные методы ----
     def __str__(self):
         status = "лечится" if not self.is_treated else "вылечен"
         return (f"Пациент: {self.name}\n"
@@ -112,3 +97,15 @@ class Patient:
         if not isinstance(other, Patient):
             return False
         return self.name == other.name
+
+    def __hash__(self):
+        return hash(self.name)
+
+    # ----- Реализация интерфейсов -----
+    def to_string(self) -> str:
+        return f"{self.name} ({self.age} лет, {self.diagnosis})"
+
+    def compare_to(self, other) -> int:
+        if not isinstance(other, Patient):
+            raise TypeError("Можно сравнивать только с Patient")
+        return self.age - other.age
