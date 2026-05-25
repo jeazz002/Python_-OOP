@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Петр",
+        "age": 30,
+        "diagnosis": "Артроз",
+        "is_treated": false
+    },
+    {
+        "name": "Мария",
+        "age": 22,
+        "diagnosis": "Артрит",
+        "is_treated": false
+    }
+]
