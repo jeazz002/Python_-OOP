@@ -57,6 +57,7 @@
 **Дополнительное задание:** запись терминальной сессии через asciinema.
 
 [![asciicast](https://asciinema.org/a/hGW5HnHm4OMMUQhX.svg)](https://asciinema.org/a/hGW5HnHm4OMMUQhX)
+
 ## 5. Вывод
 
 В ходе работы изучено и реализовано:
